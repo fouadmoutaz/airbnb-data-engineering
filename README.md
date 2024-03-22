@@ -15,7 +15,7 @@ data source here : http://insideairbnb.com/get-the-data/
 ## [Airbnb Data Warehouse (DWH)](./2.%20DWH/README.md)
 
 ### Schema Overview
-![DWH.png](./2.%20DWH/DWH.png)
+![data warehouse diagrame.png](screenshots%20of%20answers/data%20warehouse%20diagrame.png)
 The Airbnb Data Warehouse (DWH) schema consists of fact and dimension tables designed to centralize and organize Airbnb's operational data for analytical purposes. Here's an overview:
 
 #### Fact Tables:
@@ -51,31 +51,31 @@ Question:
 
 #### For a Man with His Wife and 2 Children Looking for a Week Vacation around March 2024:
 ```sql
-WITH AvailableDays AS (
-    SELECT
-        c.listing_id,
-        d.date,
-        ROW_NUMBER() OVER (PARTITION BY c.listing_id ORDER BY d.date) AS rn
-    FROM calendar_Fact c
-    JOIN date_Dim d ON c.date_key = d.date_key
-    WHERE d.year = 2024 AND d.month = 3 AND c.available = 1 
+
+with AvailableDays as (
+
+  select c.listing_id ,  d.date , ROW_NUMBER() over(partition by c.listing_id order by d.date ) as row_num
+  from calendar_Fact c
+  join date_Dim d
+  on d.date_key = c.date_key
+  where d.month = 3 and d.year = 2024 and c.available='t'
 ),
-ConsecutiveDays AS (
-    SELECT
-        listing_id,
-        MIN(date) AS start_date,
-        MAX(date) AS end_date,
-        COUNT(*) AS available_days
-    FROM AvailableDays
-    GROUP BY listing_id, DATEADD(day, -rn, date)
+ConsecutiveDays as(
+select 
+	listing_id ,
+	min(date) as start_date,
+	max(date) as end_date,
+	count(*) as num_available_days
+from AvailableDays 
+group by listing_id
 )
-SELECT TOP 3 c.listing_id, name, accommodates, available_days, price
-FROM ConsecutiveDays c
-JOIN listing_Dim l
-ON l.listing_id = c.listing_id
-WHERE available_days >= 7 AND accommodates >=4 AND name LIKE '%2 bedrooms%4 beds%'
-ORDER BY price,available_days DESC, start_date ASC;
-```
+select top 3 cd.listing_id , name , num_available_days , accommodates,  price
+from ConsecutiveDays cd
+join listing_Dim l 
+on l.listing_id = cd.listing_id
+where num_available_days >= 7 and accommodates >= 4 AND name LIKE '%2 bedrooms%4 beds%'
+order by price , start_date ,num_available_days desc;
+
 ## Conclusion
 
 The Airbnb Data Analysis Project README provides a comprehensive overview of the project, from data extraction and transformation to schema design and business question answers. It serves as a guide for understanding the project's objectives, methodologies, and outcomes.
