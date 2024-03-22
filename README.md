@@ -2,20 +2,14 @@
 
 Welcome to the Airbnb Data Analysis Project README! This document serves as a central reference point for understanding the entire project, including the dataset, ETL pipeline, data warehouse schema, and business questions answered. Let's dive into the details:
 
-## Project Presentation
 
-![https://www.canva.com/design/DAF9ztWC6fY/mbPyceUascIDx7yqVy-5-A/edit?utm_content=DAF9ztWC6fY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton](presentation.png)
-
-https://www.canva.com/design/DAF9ztWC6fY/mbPyceUascIDx7yqVy-5-A/edit?utm_content=DAF9ztWC6fY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
-
-
-![pipeline](pipeline.png)
-
-## [Source Data](./1.%20Source%20Data/README.md)
+## Source Data
 
 **Dataset Name**: Airbnb Listings, Reviews, and Calendar Data For Barcelona, Spain
 
 **Description**: This dataset contains comprehensive information about Airbnb listings in Barcelona, including details about properties, host information, availability, reviews, and calendar data. It serves as the foundation for various analyses aimed at understanding pricing trends, property popularity, host behavior, and more.
+
+data source here : http://insideairbnb.com/get-the-data/
 
 
 ## [Airbnb Data Warehouse (DWH)](./2.%20DWH/README.md)
